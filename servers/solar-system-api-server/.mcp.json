@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "solar-system-api-server": {
+      "type": "http",
+      "url": "https://solar.mcp.7robots.org/mcp"
+    }
+  }
+}

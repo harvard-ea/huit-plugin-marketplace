@@ -1,0 +1,18 @@
+# Generated from an MCP submission via the submission server.
+# Edit by re-submitting or by opening a PR.
+name: Solar System API Server
+slug: solar-system-api-server
+description: Explore solar system data — search, filter, and analyze celestial bodies
+  including planets, moons, asteroids, and comets, and calculate real-time positions
+  of objects from any observer location.
+url: https://solar.mcp.7robots.org/mcp
+transport: http
+auth:
+  type: none
+tags:
+- solar-system
+- astronomy
+- planets
+- space
+category: Science & Research
+version: 0.1.0
