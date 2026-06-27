@@ -1,0 +1,11 @@
+{
+  "name": "example-github",
+  "version": "0.1.0",
+  "description": "Example MCP server requiring a personal access token. The marketplace never distributes credentials — installers replace the placeholder with their own.",
+  "author": {
+    "name": "Harvard University Information Technology (HUIT)"
+  },
+  "interface": {
+    "displayName": "Example GitHub"
+  }
+}

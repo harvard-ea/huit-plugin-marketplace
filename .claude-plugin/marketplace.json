@@ -1,0 +1,31 @@
+{
+  "name": "huit-plugin-marketplace",
+  "owner": {
+    "name": "Harvard University Information Technology (HUIT)"
+  },
+  "plugins": [
+    {
+      "name": "example-github",
+      "source": "./servers/example-github",
+      "description": "Example MCP server requiring a personal access token. The marketplace never distributes credentials — installers replace the placeholder with their own.",
+      "version": "0.1.0",
+      "tags": [
+        "example",
+        "developer-tools"
+      ],
+      "category": "Developer Tools",
+      "homepage": "https://github.com/harvard-huit/huit-plugin-marketplace"
+    },
+    {
+      "name": "example-weather",
+      "source": "./servers/example-weather",
+      "description": "Example MCP server exposing current conditions and forecasts. Replace this entry with a real server, or delete it.",
+      "version": "0.1.0",
+      "tags": [
+        "example",
+        "weather"
+      ],
+      "category": "Productivity"
+    }
+  ]
+}
