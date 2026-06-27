@@ -1,0 +1,11 @@
+{
+  "name": "solar-system-api-server",
+  "version": "0.1.0",
+  "description": "Explore solar system data — search, filter, and analyze celestial bodies including planets, moons, asteroids, and comets, and calculate real-time positions of objects from any observer location.",
+  "author": {
+    "name": "Harvard University Information Technology (HUIT)"
+  },
+  "interface": {
+    "displayName": "Solar System API Server"
+  }
+}

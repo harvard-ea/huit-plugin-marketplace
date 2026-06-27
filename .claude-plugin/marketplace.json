@@ -32,6 +32,19 @@
       "source": "./servers/selenography-lunar-features-server",
       "description": "This server hosts a database of over 9000 geologic features of the moon",
       "version": "0.1.0"
+    },
+    {
+      "name": "solar-system-api-server",
+      "source": "./servers/solar-system-api-server",
+      "description": "Explore solar system data — search, filter, and analyze celestial bodies including planets, moons, asteroids, and comets, and calculate real-time positions of objects from any observer location.",
+      "version": "0.1.0",
+      "tags": [
+        "solar-system",
+        "astronomy",
+        "planets",
+        "space"
+      ],
+      "category": "Science & Research"
     }
   ]
 }
