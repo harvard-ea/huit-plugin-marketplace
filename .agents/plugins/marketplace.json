@@ -21,6 +21,15 @@
         "authentication": "NONE"
       },
       "category": "Productivity"
+    },
+    {
+      "name": "selenography-lunar-features-server",
+      "source": "./servers/selenography-lunar-features-server",
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "NONE"
+      },
+      "category": "Other"
     }
   ]
 }
