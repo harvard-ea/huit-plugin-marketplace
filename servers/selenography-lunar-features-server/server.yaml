@@ -1,0 +1,10 @@
+# Generated from an MCP submission via the submission server.
+# Edit by re-submitting or by opening a PR.
+name: Selenography Lunar Features Server
+slug: selenography-lunar-features-server
+description: This server hosts a database of over 9000 geologic features of the moon
+url: https://moon.mcp.7robots.org/mcp
+transport: http
+auth:
+  type: none
+version: 0.1.0

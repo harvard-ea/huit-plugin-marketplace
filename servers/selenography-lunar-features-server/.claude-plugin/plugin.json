@@ -1,0 +1,11 @@
+{
+  "name": "selenography-lunar-features-server",
+  "description": "This server hosts a database of over 9000 geologic features of the moon",
+  "version": "0.1.0",
+  "author": {
+    "name": "Harvard University Information Technology (HUIT)"
+  },
+  "keywords": [
+    "mcp"
+  ]
+}

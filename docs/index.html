@@ -27,7 +27,7 @@
 </head>
 <body>
 <h1>HUIT Plugin Marketplace</h1>
-<p class="sub">2 MCP servers · Claude Code &amp; Codex plugins</p>
+<p class="sub">3 MCP servers · Claude Code &amp; Codex plugins</p>
 <p>Add the marketplace:
   <code>/plugin marketplace add harvard-huit/huit-plugin-marketplace</code></p>
 <input id="q" type="search" placeholder="Search servers, tags, descriptions…" autofocus>
@@ -60,18 +60,29 @@ const DATA = [
 "url": "https://weather.example.com/mcp",
 "homepage": "",
 "category": "Productivity"
+},
+{
+"slug": "selenography-lunar-features-server",
+"name": "Selenography Lunar Features Server",
+"description": "This server hosts a database of over 9000 geologic features of the moon",
+"tags": [],
+"auth": "none",
+"url": "https://moon.mcp.7robots.org/mcp",
+"homepage": "",
+"category": "Other"
 }
 ];
 const list = document.getElementById('list');
 const q = document.getElementById('q');
 function esc(s) { const d = document.createElement('div'); d.textContent = s == null ? '' : s; return d.innerHTML; }
+function escAttr(s) { return esc(s).replace(/"/g, '&quot;'); }
 function render(items) {
   if (!items.length) { list.innerHTML = '<p class="empty">No matching servers.</p>'; return; }
   list.innerHTML = items.map(s => `
     <div class="card">
       <h2>${esc(s.name)} <span class="slug">${esc(s.slug)}</span></h2>
       <div>${esc(s.description)}</div>
-      <div class="auth">auth: ${esc(s.auth)}${s.homepage ? ' · <a href="'+esc(s.homepage)+'">homepage</a>' : ''}</div>
+      <div class="auth">auth: ${esc(s.auth)}${s.homepage ? ' · <a href="'+escAttr(s.homepage)+'">homepage</a>' : ''}</div>
       <div class="tags">${(s.tags||[]).map(t => '<span class="tag">'+esc(t)+'</span>').join('')}</div>
     </div>`).join('');
 }
