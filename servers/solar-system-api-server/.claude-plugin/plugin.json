@@ -1,0 +1,15 @@
+{
+  "name": "solar-system-api-server",
+  "description": "Explore solar system data — search, filter, and analyze celestial bodies including planets, moons, asteroids, and comets, and calculate real-time positions of objects from any observer location.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Harvard University Information Technology (HUIT)"
+  },
+  "keywords": [
+    "mcp",
+    "solar-system",
+    "astronomy",
+    "planets",
+    "space"
+  ]
+}
