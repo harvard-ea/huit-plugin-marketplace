@@ -1,0 +1,14 @@
+# Python / uv
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+
+# Health report (regenerated each run; not source)
+/health.json
+
+# OS
+.DS_Store

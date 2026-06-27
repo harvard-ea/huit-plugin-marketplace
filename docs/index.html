@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HUIT Plugin Marketplace</title>
+<style>
+  :root { color-scheme: light dark; }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+         max-width: 880px; margin: 0 auto; padding: 2rem 1rem; line-height: 1.5; }
+  h1 { margin-bottom: .25rem; }
+  .sub { opacity: .7; margin-top: 0; }
+  #q { width: 100%; padding: .6rem .8rem; font-size: 1rem; border: 1px solid #8884;
+        border-radius: 8px; margin: 1rem 0; }
+  .card { border: 1px solid #8883; border-radius: 10px; padding: 1rem; margin: .75rem 0; }
+  .card h2 { margin: 0 0 .25rem; font-size: 1.1rem; }
+  .slug { font-family: ui-monospace, monospace; opacity: .65; font-size: .85rem; }
+  .tags { margin-top: .5rem; }
+  .tag { display: inline-block; font-size: .75rem; padding: .1rem .5rem; border: 1px solid #8884;
+          border-radius: 999px; margin: .15rem .25rem .15rem 0; }
+  .auth { font-size: .75rem; opacity: .7; }
+  code { background: #8881; padding: .1rem .3rem; border-radius: 4px; }
+  .empty { opacity: .6; font-style: italic; }
+  footer { margin-top: 2rem; font-size: .8rem; opacity: .6; }
+</style>
+</head>
+<body>
+<h1>HUIT Plugin Marketplace</h1>
+<p class="sub">2 MCP servers · Claude Code &amp; Codex plugins</p>
+<p>Add the marketplace:
+  <code>/plugin marketplace add harvard-huit/huit-plugin-marketplace</code></p>
+<input id="q" type="search" placeholder="Search servers, tags, descriptions…" autofocus>
+<div id="list"></div>
+<footer>Generated from <code>server.yaml</code> source files. Contribute via pull request.</footer>
+<script>
+const DATA = [
+{
+"slug": "example-github",
+"name": "Example GitHub",
+"description": "Example MCP server requiring a personal access token. The marketplace never distributes credentials — installers replace the placeholder with their own.",
+"tags": [
+"example",
+"developer-tools"
+],
+"auth": "bearer",
+"url": "https://github.example.com/mcp",
+"homepage": "https://github.com/harvard-huit/huit-plugin-marketplace",
+"category": "Developer Tools"
+},
+{
+"slug": "example-weather",
+"name": "Example Weather",
+"description": "Example MCP server exposing current conditions and forecasts. Replace this entry with a real server, or delete it.",
+"tags": [
+"example",
+"weather"
+],
+"auth": "none",
+"url": "https://weather.example.com/mcp",
+"homepage": "",
+"category": "Productivity"
+}
+];
+const list = document.getElementById('list');
+const q = document.getElementById('q');
+function esc(s) { const d = document.createElement('div'); d.textContent = s == null ? '' : s; return d.innerHTML; }
+function render(items) {
+  if (!items.length) { list.innerHTML = '<p class="empty">No matching servers.</p>'; return; }
+  list.innerHTML = items.map(s => `
+    <div class="card">
+      <h2>${esc(s.name)} <span class="slug">${esc(s.slug)}</span></h2>
+      <div>${esc(s.description)}</div>
+      <div class="auth">auth: ${esc(s.auth)}${s.homepage ? ' · <a href="'+esc(s.homepage)+'">homepage</a>' : ''}</div>
+      <div class="tags">${(s.tags||[]).map(t => '<span class="tag">'+esc(t)+'</span>').join('')}</div>
+    </div>`).join('');
+}
+function filter() {
+  const t = q.value.trim().toLowerCase();
+  if (!t) return render(DATA);
+  render(DATA.filter(s => (
+    s.slug.toLowerCase().includes(t) ||
+    s.name.toLowerCase().includes(t) ||
+    (s.description||'').toLowerCase().includes(t) ||
+    (s.tags||[]).some(tag => tag.toLowerCase().includes(t))
+  )));
+}
+q.addEventListener('input', filter);
+render(DATA);
+</script>
+</body>
+</html>

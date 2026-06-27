@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "example-github": {
+      "type": "http",
+      "url": "https://github.example.com/mcp",
+      "headers": {
+        "Authorization": "Bearer <YOUR_API_KEY>"
+      }
+    }
+  }
+}

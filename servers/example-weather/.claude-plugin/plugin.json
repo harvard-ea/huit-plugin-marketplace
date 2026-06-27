@@ -1,0 +1,13 @@
+{
+  "name": "example-weather",
+  "description": "Example MCP server exposing current conditions and forecasts. Replace this entry with a real server, or delete it.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Harvard University Information Technology (HUIT)"
+  },
+  "keywords": [
+    "mcp",
+    "example",
+    "weather"
+  ]
+}
