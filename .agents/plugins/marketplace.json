@@ -30,6 +30,15 @@
         "authentication": "NONE"
       },
       "category": "Other"
+    },
+    {
+      "name": "solar-system-api-server",
+      "source": "./servers/solar-system-api-server",
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "NONE"
+      },
+      "category": "Science & Research"
     }
   ]
 }
