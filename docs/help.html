@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HUIT Plugin Marketplace — Help</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+  /* Harvard theme — Crimson (#A51C30) on warm paper, near-black masthead with a
+     crimson accent stripe; Source Serif 4 headings / Source Sans 3 body. */
+  :root {
+    --crimson: #A51C30; --crimson-dark: #8B0000; --crimson-tint: rgba(165,28,48,.08);
+    --ink: #1E1E1E; --paper: #FAF7F2; --card: #FFFFFF; --muted: #6B6B6B;
+    --border: #E5E2DC; --border-strong: #C8C2B6;
+  }
+  * { box-sizing: border-box; }
+  body { font-family: 'Source Sans 3', -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+         margin: 0; background: var(--paper); color: var(--ink); line-height: 1.55; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 1rem; }
+  h1, h2, h3 { font-family: 'Source Serif 4', Georgia, 'Times New Roman', serif; }
+  .masthead { background: var(--ink); border-bottom: 4px solid var(--crimson); color: #fff; padding: 1.5rem 0; }
+  .masthead-inner { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+  .masthead h1 { margin: 0; font-weight: 700; letter-spacing: -.005em; font-size: 1.9rem; }
+  .masthead .sub { margin: .3rem 0 0; color: rgba(255,255,255,.78); font-size: .9rem; }
+  .masthead a { color: #fff; }
+  .topnav a { text-decoration: none; font-size: .9rem; font-weight: 500; white-space: nowrap; }
+  .topnav a:hover { text-decoration: underline; }
+  main { padding: 1.5rem 0 2rem; }
+  a { color: var(--crimson); text-underline-offset: 2px; }
+  a:hover { color: var(--crimson-dark); }
+  code { background: rgba(30,30,30,.05); padding: .1rem .3rem; border-radius: 3px;
+         font-family: ui-monospace, monospace; }
+  pre { background: rgba(30,30,30,.05); padding: .75rem 1rem; border-radius: 3px;
+        overflow: auto; font-size: .85rem; }
+  pre code { background: none; padding: 0; }
+  /* Getting Started box */
+  .gs { background: var(--card); border: 1px solid var(--border); border-left: 4px solid var(--crimson);
+        border-radius: 3px; padding: 1rem 1.25rem; margin: 0 0 1.5rem; }
+  .gs h2 { margin: .2rem 0 .6rem; font-size: 1.3rem; }
+  .gs p { margin: .4rem 0; }
+  /* Search + listing */
+  #q { width: 100%; padding: .6rem .8rem; font-size: 1rem; font-family: inherit;
+       border: 1px solid var(--border-strong); border-radius: 4px; background: var(--card);
+       color: var(--ink); margin: 0 0 .5rem; }
+  #q:focus { outline: 2px solid var(--crimson); outline-offset: -1px; border-color: var(--crimson); }
+  #active { font-size: .85rem; margin: .25rem 0; min-height: 1.2rem; color: var(--muted); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 3px;
+          padding: 1rem; margin: .75rem 0; box-shadow: 0 1px 2px rgba(0,0,0,.04); }
+  .card h2 { margin: 0 0 .25rem; font-size: 1.15rem; font-weight: 600; }
+  .slug { font-family: ui-monospace, monospace; color: var(--muted); font-size: .85rem; }
+  .meta { font-size: .75rem; color: var(--muted); margin-bottom: .35rem; }
+  .tags { margin-top: .5rem; }
+  .tag { font: inherit; font-size: .75rem; cursor: pointer; padding: .1rem .5rem;
+         border: 1px solid var(--border-strong); border-radius: 999px; margin: .15rem .25rem .15rem 0;
+         background: var(--card); color: var(--ink); }
+  .tag:hover { border-color: var(--crimson); }
+  .tag.on { background: var(--crimson); border-color: var(--crimson); color: #fff; }
+  .clear { font: inherit; font-size: .75rem; cursor: pointer; background: transparent;
+           border: none; color: var(--crimson); text-decoration: underline; padding: 0; }
+  .empty { color: var(--muted); font-style: italic; }
+  /* Help / docs */
+  .doc h2 { margin: 1.8rem 0 .5rem; font-size: 1.4rem; border-bottom: 2px solid var(--crimson);
+            padding-bottom: .2rem; }
+  .doc h3 { margin: 1.2rem 0 .4rem; font-size: 1.1rem; }
+  .doc li { margin: .3rem 0; }
+  .doc .note { color: var(--muted); font-size: .9rem; }
+  footer { margin-top: 2rem; font-size: .8rem; color: var(--muted);
+           border-top: 1px solid var(--border); padding-top: 1rem; }
+</style>
+</head>
+<body>
+<header class="masthead"><div class="wrap masthead-inner">
+  <div><h1>HUIT Plugin Marketplace</h1><p class="sub">Help &amp; Documentation</p></div>
+  <nav class="topnav"><a href="index.html">&larr; Marketplace</a></nav>
+</div></header>
+<main class="wrap doc">
+<p>The HUIT Plugin Marketplace distributes Model Context Protocol (MCP) servers as
+   one-click plugins for Claude Code and (soon) OpenAI Codex. This page covers
+   installing the marketplace and plugins, and submitting your own server.</p>
+
+<h2 id="claude">Install in Claude Code</h2>
+<ol>
+  <li>Add the marketplace:
+    <pre><code>/plugin marketplace add harvard-huit/huit-plugin-marketplace</code></pre></li>
+  <li>Install a plugin (browse the <a href="index.html">marketplace</a> for names):
+    <pre><code>/plugin install &lt;plugin-name&gt;@huit-plugin-marketplace</code></pre></li>
+  <li>Apply it:
+    <pre><code>/reload-plugins</code></pre></li>
+  <li>If the server requires authentication, run <code>/mcp</code> and complete
+      the sign-in flow when prompted.</li>
+</ol>
+
+<h2 id="codex">Install in Codex</h2>
+<p class="note"><em>Coming soon.</em> Codex plugin manifests are generated alongside
+   the Claude ones (<code>.codex-plugin/</code>, <code>.agents/plugins/marketplace.json</code>);
+   step-by-step install instructions will be added here once the Codex install
+   flow is verified end-to-end.</p>
+
+<h2 id="submit">Submit a server for review</h2>
+<p>Submissions are made through the submission MCP server, which validates your
+   server and opens a pull request to the marketplace for a maintainer to review.
+   The easiest path is the companion plugin:</p>
+<ol>
+  <li>Add the tools marketplace and install the submission plugin:
+    <pre><code>/plugin marketplace add harvard-huit/huit-plugin-marketplace-submit
+/plugin install huit-marketplace-submit@huit-plugin-marketplace-tools
+/reload-plugins</code></pre></li>
+  <li>Authenticate the <code>huit-plugin-submission</code> MCP server (<code>/mcp</code>).</li>
+  <li>Ask Claude to “submit my MCP server to the marketplace.” The guided skill
+      collects the details (name, description, URL, tags, homepage), checks for
+      name collisions, dry-run validates, and opens the PR.</li>
+</ol>
+<p>To change a server that's already published, update it (rather than
+   re-adding): the submission flow opens a PR that replaces the existing entry.</p>
+<p class="note">Prefer to drive it yourself? The server exposes
+   <code>list_servers</code>, <code>validate_server</code> (dry run),
+   <code>submit_server</code> (add), and <code>update_server</code> (modify an
+   existing entry) directly.</p>
+
+<h2 id="teams">Team-specific marketplaces</h2>
+<p>Beyond the public marketplace, teams can have their own curated marketplace
+   (a separate destination tier). First-pass guidance:</p>
+<ul>
+  <li>Each team marketplace is its own data repository with its own catalog and
+      access controls.</li>
+  <li>Submitters choose a destination tier when submitting; access is gated by
+      team membership (authorized via the submitter's identity).</li>
+  <li>Setup and policy are coordinated with HUIT — this section will expand with
+      concrete steps as team marketplaces roll out.</li>
+</ul>
+
+<footer>Generated from <code>server.yaml</code> source files. Contribute via pull request.</footer>
+</main>
+</body>
+</html>
