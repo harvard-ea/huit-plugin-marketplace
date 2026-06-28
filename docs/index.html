@@ -4,35 +4,91 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>HUIT Plugin Marketplace</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
 <style>
-  :root { color-scheme: light dark; }
+  /* Harvard theme — Crimson (#A51C30) on warm paper, near-black masthead with a
+     crimson accent stripe; Source Serif 4 headings / Source Sans 3 body. */
+  :root {
+    --crimson: #A51C30; --crimson-dark: #8B0000; --crimson-tint: rgba(165,28,48,.08);
+    --ink: #1E1E1E; --paper: #FAF7F2; --card: #FFFFFF; --muted: #6B6B6B;
+    --border: #E5E2DC; --border-strong: #C8C2B6;
+  }
   * { box-sizing: border-box; }
-  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
-         max-width: 880px; margin: 0 auto; padding: 2rem 1rem; line-height: 1.5; }
-  h1 { margin-bottom: .25rem; }
-  .sub { opacity: .7; margin-top: 0; }
-  #q { width: 100%; padding: .6rem .8rem; font-size: 1rem; border: 1px solid #8884;
-        border-radius: 8px; margin: 1rem 0; }
-  .card { border: 1px solid #8883; border-radius: 10px; padding: 1rem; margin: .75rem 0; }
-  .card h2 { margin: 0 0 .25rem; font-size: 1.1rem; }
-  .slug { font-family: ui-monospace, monospace; opacity: .65; font-size: .85rem; }
+  body { font-family: 'Source Sans 3', -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+         margin: 0; background: var(--paper); color: var(--ink); line-height: 1.55; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 1rem; }
+  h1, h2, h3 { font-family: 'Source Serif 4', Georgia, 'Times New Roman', serif; }
+  .masthead { background: var(--ink); border-bottom: 4px solid var(--crimson); color: #fff; padding: 1.5rem 0; }
+  .masthead-inner { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+  .masthead h1 { margin: 0; font-weight: 700; letter-spacing: -.005em; font-size: 1.9rem; }
+  .masthead .sub { margin: .3rem 0 0; color: rgba(255,255,255,.78); font-size: .9rem; }
+  .masthead a { color: #fff; }
+  .topnav a { text-decoration: none; font-size: .9rem; font-weight: 500; white-space: nowrap; }
+  .topnav a:hover { text-decoration: underline; }
+  main { padding: 1.5rem 0 2rem; }
+  a { color: var(--crimson); text-underline-offset: 2px; }
+  a:hover { color: var(--crimson-dark); }
+  code { background: rgba(30,30,30,.05); padding: .1rem .3rem; border-radius: 3px;
+         font-family: ui-monospace, monospace; }
+  pre { background: rgba(30,30,30,.05); padding: .75rem 1rem; border-radius: 3px;
+        overflow: auto; font-size: .85rem; }
+  pre code { background: none; padding: 0; }
+  /* Getting Started box */
+  .gs { background: var(--card); border: 1px solid var(--border); border-left: 4px solid var(--crimson);
+        border-radius: 3px; padding: 1rem 1.25rem; margin: 0 0 1.5rem; }
+  .gs h2 { margin: .2rem 0 .6rem; font-size: 1.3rem; }
+  .gs p { margin: .4rem 0; }
+  /* Search + listing */
+  #q { width: 100%; padding: .6rem .8rem; font-size: 1rem; font-family: inherit;
+       border: 1px solid var(--border-strong); border-radius: 4px; background: var(--card);
+       color: var(--ink); margin: 0 0 .5rem; }
+  #q:focus { outline: 2px solid var(--crimson); outline-offset: -1px; border-color: var(--crimson); }
+  #active { font-size: .85rem; margin: .25rem 0; min-height: 1.2rem; color: var(--muted); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 3px;
+          padding: 1rem; margin: .75rem 0; box-shadow: 0 1px 2px rgba(0,0,0,.04); }
+  .card h2 { margin: 0 0 .25rem; font-size: 1.15rem; font-weight: 600; }
+  .slug { font-family: ui-monospace, monospace; color: var(--muted); font-size: .85rem; }
+  .meta { font-size: .75rem; color: var(--muted); margin-bottom: .35rem; }
   .tags { margin-top: .5rem; }
-  .tag { display: inline-block; font-size: .75rem; padding: .1rem .5rem; border: 1px solid #8884;
-          border-radius: 999px; margin: .15rem .25rem .15rem 0; }
-  .auth { font-size: .75rem; opacity: .7; }
-  code { background: #8881; padding: .1rem .3rem; border-radius: 4px; }
-  .empty { opacity: .6; font-style: italic; }
-  footer { margin-top: 2rem; font-size: .8rem; opacity: .6; }
+  .tag { font: inherit; font-size: .75rem; cursor: pointer; padding: .1rem .5rem;
+         border: 1px solid var(--border-strong); border-radius: 999px; margin: .15rem .25rem .15rem 0;
+         background: var(--card); color: var(--ink); }
+  .tag:hover { border-color: var(--crimson); }
+  .tag.on { background: var(--crimson); border-color: var(--crimson); color: #fff; }
+  .clear { font: inherit; font-size: .75rem; cursor: pointer; background: transparent;
+           border: none; color: var(--crimson); text-decoration: underline; padding: 0; }
+  .empty { color: var(--muted); font-style: italic; }
+  /* Help / docs */
+  .doc h2 { margin: 1.8rem 0 .5rem; font-size: 1.4rem; border-bottom: 2px solid var(--crimson);
+            padding-bottom: .2rem; }
+  .doc h3 { margin: 1.2rem 0 .4rem; font-size: 1.1rem; }
+  .doc li { margin: .3rem 0; }
+  .doc .note { color: var(--muted); font-size: .9rem; }
+  footer { margin-top: 2rem; font-size: .8rem; color: var(--muted);
+           border-top: 1px solid var(--border); padding-top: 1rem; }
 </style>
 </head>
 <body>
-<h1>HUIT Plugin Marketplace</h1>
-<p class="sub">4 MCP servers · Claude Code &amp; Codex plugins</p>
-<p>Add the marketplace:
-  <code>/plugin marketplace add harvard-huit/huit-plugin-marketplace</code></p>
+<header class="masthead"><div class="wrap masthead-inner">
+  <div><h1>HUIT Plugin Marketplace</h1><p class="sub" id="sub">5 MCP servers · Claude Code &amp; Codex plugins</p></div>
+  <nav class="topnav"><a href="help.html">Help &amp; Docs</a></nav>
+</div></header>
+<main class="wrap">
+<section class="gs">
+  <h2>Getting Started</h2>
+  <p>Add this marketplace in Claude Code, then install any plugin:</p>
+  <pre><code>/plugin marketplace add harvard-huit/huit-plugin-marketplace
+/plugin install &lt;plugin-name&gt;@huit-plugin-marketplace</code></pre>
+  <p>New here? See <a href="help.html">Help &amp; Docs</a> for Claude and Codex setup,
+     and how to submit your own MCP server for review.</p>
+</section>
 <input id="q" type="search" placeholder="Search servers, tags, descriptions…" autofocus>
+<div id="active"></div>
 <div id="list"></div>
 <footer>Generated from <code>server.yaml</code> source files. Contribute via pull request.</footer>
+</main>
 <script>
 const DATA = [
 {
@@ -45,8 +101,7 @@ const DATA = [
 ],
 "auth": "bearer",
 "url": "https://github.example.com/mcp",
-"homepage": "https://github.com/harvard-huit/huit-plugin-marketplace",
-"category": "Developer Tools"
+"homepage": "https://github.com/harvard-huit/huit-plugin-marketplace"
 },
 {
 "slug": "example-weather",
@@ -58,8 +113,21 @@ const DATA = [
 ],
 "auth": "none",
 "url": "https://weather.example.com/mcp",
-"homepage": "",
-"category": "Productivity"
+"homepage": ""
+},
+{
+"slug": "excalidraw-mcp-server",
+"name": "Excalidraw MCP Server",
+"description": "An MCP server for creating and editing Excalidraw whiteboard diagrams — add shapes and elements, render views, and save or load drawing checkpoints.",
+"tags": [
+"excalidraw",
+"diagrams",
+"whiteboard",
+"drawing"
+],
+"auth": "none",
+"url": "https://excalidraw-mcp-app.vercel.app/mcp",
+"homepage": "https://docs.excalidraw.com/docs"
 },
 {
 "slug": "selenography-lunar-features-server",
@@ -68,8 +136,7 @@ const DATA = [
 "tags": [],
 "auth": "none",
 "url": "https://moon.mcp.7robots.org/mcp",
-"homepage": "",
-"category": "Other"
+"homepage": ""
 },
 {
 "slug": "solar-system-api-server",
@@ -83,36 +150,56 @@ const DATA = [
 ],
 "auth": "none",
 "url": "https://solar.mcp.7robots.org/mcp",
-"homepage": "",
-"category": "Science & Research"
+"homepage": ""
 }
 ];
+const TOTAL = DATA.length;
+const state = { q: '', tag: null };
 const list = document.getElementById('list');
+const active = document.getElementById('active');
+const sub = document.getElementById('sub');
 const q = document.getElementById('q');
 function esc(s) { const d = document.createElement('div'); d.textContent = s == null ? '' : s; return d.innerHTML; }
 function escAttr(s) { return esc(s).replace(/"/g, '&quot;'); }
-function render(items) {
-  if (!items.length) { list.innerHTML = '<p class="empty">No matching servers.</p>'; return; }
-  list.innerHTML = items.map(s => `
-    <div class="card">
-      <h2>${esc(s.name)} <span class="slug">${esc(s.slug)}</span></h2>
-      <div>${esc(s.description)}</div>
-      <div class="auth">auth: ${esc(s.auth)}${s.homepage ? ' · <a href="'+escAttr(s.homepage)+'">homepage</a>' : ''}</div>
-      <div class="tags">${(s.tags||[]).map(t => '<span class="tag">'+esc(t)+'</span>').join('')}</div>
-    </div>`).join('');
+
+function matches(s) {
+  if (state.tag && !(s.tags || []).includes(state.tag)) return false;
+  const t = state.q;
+  if (!t) return true;
+  return s.slug.toLowerCase().includes(t)
+    || s.name.toLowerCase().includes(t)
+    || (s.description || '').toLowerCase().includes(t)
+    || (s.tags || []).some(tag => tag.toLowerCase().includes(t));
 }
-function filter() {
-  const t = q.value.trim().toLowerCase();
-  if (!t) return render(DATA);
-  render(DATA.filter(s => (
-    s.slug.toLowerCase().includes(t) ||
-    s.name.toLowerCase().includes(t) ||
-    (s.description||'').toLowerCase().includes(t) ||
-    (s.tags||[]).some(tag => tag.toLowerCase().includes(t))
-  )));
+
+function render() {
+  const items = DATA.filter(matches);
+  sub.textContent = `Showing ${items.length} of ${TOTAL} MCP server${TOTAL === 1 ? '' : 's'}`;
+  active.innerHTML = state.tag
+    ? `Filtering by tag <span class="tag on">${esc(state.tag)}</span> `
+      + `<button class="clear" id="cleartag">clear</button>`
+    : '';
+  list.innerHTML = items.length
+    ? items.map(s => `
+      <div class="card">
+        <h2>${esc(s.name)} <span class="slug">${esc(s.slug)}</span></h2>
+        <div class="meta"><span class="auth">auth: ${esc(s.auth)}</span>${(s.homepage && s.homepage.toLowerCase().startsWith('https://')) ? ' · <a href="' + escAttr(s.homepage) + '" rel="noopener noreferrer">homepage</a>' : ''}</div>
+        <div>${esc(s.description)}</div>
+        <div class="tags">${(s.tags || []).map(t => `<button class="tag${t === state.tag ? ' on' : ''}" data-tag="${escAttr(t)}">${esc(t)}</button>`).join('')}</div>
+      </div>`).join('')
+    : '<p class="empty">No matching servers.</p>';
 }
-q.addEventListener('input', filter);
-render(DATA);
+
+q.addEventListener('input', () => { state.q = q.value.trim().toLowerCase(); render(); });
+list.addEventListener('click', e => {
+  const b = e.target.closest('.tag'); if (!b) return;
+  state.tag = (state.tag === b.dataset.tag) ? null : b.dataset.tag; render();
+});
+active.addEventListener('click', e => {
+  if (e.target.id === 'cleartag') { state.tag = null; render(); }
+});
+
+render();
 </script>
 </body>
 </html>

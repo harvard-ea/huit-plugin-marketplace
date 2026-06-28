@@ -1,0 +1,17 @@
+# Generated from an MCP submission via the submission server.
+# Edit by re-submitting or by opening a PR.
+name: Excalidraw MCP Server
+slug: excalidraw-mcp-server
+description: An MCP server for creating and editing Excalidraw whiteboard diagrams
+  — add shapes and elements, render views, and save or load drawing checkpoints.
+url: https://excalidraw-mcp-app.vercel.app/mcp
+transport: http
+auth:
+  type: none
+tags:
+- excalidraw
+- diagrams
+- whiteboard
+- drawing
+homepage: https://docs.excalidraw.com/docs
+version: 0.1.0
