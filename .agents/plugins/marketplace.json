@@ -10,8 +10,7 @@
       "policy": {
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
-      },
-      "category": "Developer Tools"
+      }
     },
     {
       "name": "example-weather",
@@ -19,8 +18,15 @@
       "policy": {
         "installation": "AVAILABLE",
         "authentication": "NONE"
-      },
-      "category": "Productivity"
+      }
+    },
+    {
+      "name": "excalidraw-mcp-server",
+      "source": "./servers/excalidraw-mcp-server",
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "NONE"
+      }
     },
     {
       "name": "selenography-lunar-features-server",
@@ -28,8 +34,7 @@
       "policy": {
         "installation": "AVAILABLE",
         "authentication": "NONE"
-      },
-      "category": "Other"
+      }
     },
     {
       "name": "solar-system-api-server",
@@ -37,8 +42,7 @@
       "policy": {
         "installation": "AVAILABLE",
         "authentication": "NONE"
-      },
-      "category": "Science & Research"
+      }
     }
   ]
 }

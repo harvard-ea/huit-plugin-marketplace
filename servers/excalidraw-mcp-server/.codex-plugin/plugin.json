@@ -1,0 +1,11 @@
+{
+  "name": "excalidraw-mcp-server",
+  "version": "0.1.0",
+  "description": "An MCP server for creating and editing Excalidraw whiteboard diagrams — add shapes and elements, render views, and save or load drawing checkpoints.",
+  "author": {
+    "name": "Harvard University Information Technology (HUIT)"
+  },
+  "interface": {
+    "displayName": "Excalidraw MCP Server"
+  }
+}
