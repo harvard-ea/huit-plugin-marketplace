@@ -8,7 +8,6 @@
       "name": "example-github",
       "source": "./servers/example-github",
       "description": "Example MCP server requiring a personal access token. The marketplace never distributes credentials — installers replace the placeholder with their own.",
-      "url": "https://github.example.com/mcp",
       "version": "0.1.0",
       "tags": [
         "example",
@@ -20,7 +19,6 @@
       "name": "example-weather",
       "source": "./servers/example-weather",
       "description": "Example MCP server exposing current conditions and forecasts. Replace this entry with a real server, or delete it.",
-      "url": "https://weather.example.com/mcp",
       "version": "0.1.0",
       "tags": [
         "example",
@@ -31,7 +29,6 @@
       "name": "excalidraw-mcp-server",
       "source": "./servers/excalidraw-mcp-server",
       "description": "An MCP server for creating and editing Excalidraw whiteboard diagrams — add shapes and elements, render views, and save or load drawing checkpoints.",
-      "url": "https://excalidraw-mcp-app.vercel.app/mcp",
       "version": "0.1.0",
       "tags": [
         "excalidraw",
@@ -45,14 +42,12 @@
       "name": "selenography-lunar-features-server",
       "source": "./servers/selenography-lunar-features-server",
       "description": "This server hosts a database of over 9000 geologic features of the moon",
-      "url": "https://moon.mcp.7robots.org/mcp",
       "version": "0.1.0"
     },
     {
       "name": "solar-system-api-server",
       "source": "./servers/solar-system-api-server",
       "description": "Explore solar system data — search, filter, and analyze celestial bodies including planets, moons, asteroids, and comets, and calculate real-time positions of objects from any observer location.",
-      "url": "https://solar.mcp.7robots.org/mcp",
       "version": "0.1.0",
       "tags": [
         "solar-system",
