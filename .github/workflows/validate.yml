@@ -1,0 +1,53 @@
+# Data-repo CI gate. Drop this into the MARKETPLACE DATA REPO
+# (harvard-huit/huit-plugin-marketplace, or the harvard-ea POC copy) at
+#   .github/workflows/validate.yml
+#
+# It runs the generation library's `check` on every PR: validates each
+# server.yaml input, validates the generated Claude/Codex catalogs against their
+# plugin-entry schemas, and asserts the committed generated files are current.
+# This is the gate that would have caught the `url`-in-catalog bug before merge.
+#
+# Pair with branch protection on `main` (see data-repo-ci/README.md) so this
+# check is required before a (bot or human) PR can merge.
+name: validate-marketplace
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # Install the generation library straight from the submission-server repo.
+      # `--no-deps` skips the FastMCP/Okta/Modal server stack — the gen library
+      # only needs pyyaml (the `gen` extra in that repo's pyproject documents
+      # this), keeping the marketplace gate fast and immune to server-dep churn.
+      #
+      # The submission repo is PRIVATE and in a different org, so the default
+      # Actions token can't read it. Supply a read-only token as the
+      # GEN_INSTALL_TOKEN repo secret (fine-grained PAT with Contents:read on
+      # harvard-huit/huit-plugin-marketplace-submit, or a deploy token). Passed
+      # via env so it's masked and never written into the workflow file.
+      #
+      # Pin @<SHA> to a commit of the submission repo so catalog generation can't
+      # drift under CI; bump it deliberately when the generator changes.
+      - name: Install generator
+        env:
+          GEN_TOKEN: ${{ secrets.GEN_INSTALL_TOKEN }}
+        run: |
+          pip install --no-deps "huit-mcp-submit @ git+https://${GEN_TOKEN}@github.com/harvard-huit/huit-plugin-marketplace-submit.git@08b52e21581da3b36a2643ce9cf97aec72d21bfb"
+          pip install "pyyaml>=6.0"
+
+      # $GITHUB_REPOSITORY (= owner/repo) makes the freshness check use this
+      # repo's own identity for the Pages install command — matching what the
+      # submission server generated when it opened the PR.
+      - name: Validate inputs, catalogs, and generated-file freshness
+        run: python -m submit.gen check . --marketplace-repo "$GITHUB_REPOSITORY"
