@@ -1,33 +1,5 @@
 [
   {
-    "slug": "example-github",
-    "name": "Example GitHub",
-    "description": "Example MCP server requiring a personal access token. The marketplace never distributes credentials — installers replace the placeholder with their own.",
-    "url": "https://github.example.com/mcp",
-    "transport": "http",
-    "auth": "bearer",
-    "tags": [
-      "example",
-      "developer-tools"
-    ],
-    "homepage": "https://github.com/harvard-huit/huit-plugin-marketplace",
-    "version": "0.1.0"
-  },
-  {
-    "slug": "example-weather",
-    "name": "Example Weather",
-    "description": "Example MCP server exposing current conditions and forecasts. Replace this entry with a real server, or delete it.",
-    "url": "https://weather.example.com/mcp",
-    "transport": "http",
-    "auth": "none",
-    "tags": [
-      "example",
-      "weather"
-    ],
-    "homepage": null,
-    "version": "0.1.0"
-  },
-  {
     "slug": "excalidraw-mcp-server",
     "name": "Excalidraw MCP Server",
     "description": "An MCP server for creating and editing Excalidraw whiteboard diagrams — add shapes and elements, render views, and save or load drawing checkpoints.",

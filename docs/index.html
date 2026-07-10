@@ -59,6 +59,10 @@
   .tag.on { background: var(--crimson); border-color: var(--crimson); color: #fff; }
   .clear { font: inherit; font-size: .75rem; cursor: pointer; background: transparent;
            border: none; color: var(--crimson); text-decoration: underline; padding: 0; }
+  .dep { display: inline-block; font-size: .7rem; font-weight: 600; text-transform: uppercase;
+         letter-spacing: .04em; color: #fff; background: var(--muted); border-radius: 3px;
+         padding: .05rem .45rem; margin-left: .4rem; vertical-align: middle; }
+  .card.is-dep { opacity: .75; }
   .empty { color: var(--muted); font-style: italic; }
   /* Help / docs */
   .doc h2 { margin: 1.8rem 0 .5rem; font-size: 1.4rem; border-bottom: 2px solid var(--crimson);
@@ -72,7 +76,7 @@
 </head>
 <body>
 <header class="masthead"><div class="wrap masthead-inner">
-  <div><h1>HUIT Plugin Marketplace</h1><p class="sub" id="sub">5 MCP servers · Claude Code &amp; Codex plugins</p></div>
+  <div><h1>HUIT Plugin Marketplace</h1><p class="sub" id="sub">3 MCP servers · Claude Code &amp; Codex plugins</p></div>
   <nav class="topnav"><a href="help.html">Help &amp; Docs</a></nav>
 </div></header>
 <main class="wrap">
@@ -91,30 +95,6 @@
 </main>
 <script>
 const DATA = [
-{
-"slug": "example-github",
-"name": "Example GitHub",
-"description": "Example MCP server requiring a personal access token. The marketplace never distributes credentials — installers replace the placeholder with their own.",
-"tags": [
-"example",
-"developer-tools"
-],
-"auth": "bearer",
-"url": "https://github.example.com/mcp",
-"homepage": "https://github.com/harvard-huit/huit-plugin-marketplace"
-},
-{
-"slug": "example-weather",
-"name": "Example Weather",
-"description": "Example MCP server exposing current conditions and forecasts. Replace this entry with a real server, or delete it.",
-"tags": [
-"example",
-"weather"
-],
-"auth": "none",
-"url": "https://weather.example.com/mcp",
-"homepage": ""
-},
 {
 "slug": "excalidraw-mcp-server",
 "name": "Excalidraw MCP Server",
@@ -181,8 +161,8 @@ function render() {
     : '';
   list.innerHTML = items.length
     ? items.map(s => `
-      <div class="card">
-        <h2>${esc(s.name)} <span class="slug">${esc(s.slug)}</span></h2>
+      <div class="card${s.deprecated ? ' is-dep' : ''}">
+        <h2>${esc(s.name)} <span class="slug">${esc(s.slug)}</span>${s.deprecated ? '<span class="dep" title="' + escAttr(s.deprecated_reason || '') + '">deprecated</span>' : ''}</h2>
         <div class="meta"><span class="auth">auth: ${esc(s.auth)}</span>${(s.homepage && s.homepage.toLowerCase().startsWith('https://')) ? ' · <a href="' + escAttr(s.homepage) + '" rel="noopener noreferrer">homepage</a>' : ''}</div>
         <div>${esc(s.description)}</div>
         <div class="tags">${(s.tags || []).map(t => `<button class="tag${t === state.tag ? ' on' : ''}" data-tag="${escAttr(t)}">${esc(t)}</button>`).join('')}</div>
