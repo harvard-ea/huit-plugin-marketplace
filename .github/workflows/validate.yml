@@ -43,7 +43,7 @@ jobs:
         env:
           GEN_TOKEN: ${{ secrets.GEN_INSTALL_TOKEN }}
         run: |
-          pip install --no-deps "huit-mcp-submit @ git+https://${GEN_TOKEN}@github.com/harvard-huit/huit-plugin-marketplace-submit.git@08b52e21581da3b36a2643ce9cf97aec72d21bfb"
+          pip install --no-deps "plugin-marketplace-manager @ git+https://${GEN_TOKEN}@github.com/harvard-huit/plugin-marketplace-manager.git@7ff3945ba9dce1b561612be895ad6b9e04d02c5f"
           pip install "pyyaml>=6.0"
 
       # $GITHUB_REPOSITORY (= owner/repo) makes the freshness check use this

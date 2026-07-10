@@ -5,6 +5,7 @@
   "author": {
     "name": "Harvard University Information Technology (HUIT)"
   },
+  "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Selenography Lunar Features Server"
   }

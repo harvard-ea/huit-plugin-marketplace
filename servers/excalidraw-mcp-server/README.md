@@ -6,13 +6,13 @@ An MCP server for creating and editing Excalidraw whiteboard diagrams — add sh
 
 **Claude Code**
 ```
-/plugin marketplace add harvard-huit/huit-plugin-marketplace
+/plugin marketplace add harvard-ea/huit-plugin-marketplace
 /plugin install excalidraw-mcp-server@huit-plugin-marketplace
 ```
 
 **Codex**
 ```
-codex plugin marketplace add harvard-huit/huit-plugin-marketplace
+codex plugin marketplace add harvard-ea/huit-plugin-marketplace
 ```
 
 ## Server

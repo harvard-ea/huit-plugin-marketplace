@@ -59,6 +59,10 @@
   .tag.on { background: var(--crimson); border-color: var(--crimson); color: #fff; }
   .clear { font: inherit; font-size: .75rem; cursor: pointer; background: transparent;
            border: none; color: var(--crimson); text-decoration: underline; padding: 0; }
+  .dep { display: inline-block; font-size: .7rem; font-weight: 600; text-transform: uppercase;
+         letter-spacing: .04em; color: #fff; background: var(--muted); border-radius: 3px;
+         padding: .05rem .45rem; margin-left: .4rem; vertical-align: middle; }
+  .card.is-dep { opacity: .75; }
   .empty { color: var(--muted); font-style: italic; }
   /* Help / docs */
   .doc h2 { margin: 1.8rem 0 .5rem; font-size: 1.4rem; border-bottom: 2px solid var(--crimson);
@@ -104,7 +108,7 @@
    The easiest path is the companion plugin:</p>
 <ol>
   <li>Add the tools marketplace and install the submission plugin:
-    <pre><code>/plugin marketplace add harvard-huit/huit-plugin-marketplace-submit
+    <pre><code>/plugin marketplace add harvard-huit/plugin-marketplace-manager
 /plugin install huit-marketplace-submit@huit-plugin-marketplace-tools
 /reload-plugins</code></pre></li>
   <li>Authenticate the <code>huit-plugin-submission</code> MCP server (<code>/mcp</code>).</li>

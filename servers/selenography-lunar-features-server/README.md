@@ -6,13 +6,13 @@ This server hosts a database of over 9000 geologic features of the moon
 
 **Claude Code**
 ```
-/plugin marketplace add harvard-huit/huit-plugin-marketplace
+/plugin marketplace add harvard-ea/huit-plugin-marketplace
 /plugin install selenography-lunar-features-server@huit-plugin-marketplace
 ```
 
 **Codex**
 ```
-codex plugin marketplace add harvard-huit/huit-plugin-marketplace
+codex plugin marketplace add harvard-ea/huit-plugin-marketplace
 ```
 
 ## Server

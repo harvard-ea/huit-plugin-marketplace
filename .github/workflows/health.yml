@@ -1,0 +1,45 @@
+# OPT-IN staleness check for a marketplace DATA REPO (ROADMAP 1.13). Drop this
+# into the data repo at .github/workflows/health.yml *only if* you want
+# scheduled dead-endpoint detection — it is deliberately not part of the
+# required validate.yml gate. Generated/maintained in
+# harvard-huit/plugin-marketplace-manager.
+#
+# It probes every published server's endpoint at the HTTP level (no MCP
+# handshake, no credentials): connection failures / timeouts / 5xx fail the
+# run. A failing scheduled run is the signal that an entry has gone stale —
+# deprecate or retire it via the submission server. Deprecated entries are
+# probed but never fail the run (their decay is expected).
+#
+# This stays git-native on purpose: no stateful monitor, no database — just a
+# scheduled re-run of the reachability check (the design's stateless stance).
+name: marketplace-health
+
+on:
+  schedule:
+    - cron: "0 11 * * 1" # Mondays 11:00 UTC — weekly is plenty for staleness
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  health:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # Same pinned-generator install as validate.yml (see that file for the
+      # GEN_INSTALL_TOKEN / pinning notes); health additionally needs httpx.
+      - name: Install generator
+        env:
+          GEN_TOKEN: ${{ secrets.GEN_INSTALL_TOKEN }}
+        run: |
+          pip install --no-deps "plugin-marketplace-manager @ git+https://${GEN_TOKEN}@github.com/harvard-huit/plugin-marketplace-manager.git@7ff3945ba9dce1b561612be895ad6b9e04d02c5f"
+          pip install "pyyaml>=6.0" "httpx>=0.27"
+
+      - name: Probe published endpoints
+        run: python -m submit.gen health .

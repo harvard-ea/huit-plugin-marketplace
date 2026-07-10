@@ -6,13 +6,13 @@ Explore solar system data — search, filter, and analyze celestial bodies inclu
 
 **Claude Code**
 ```
-/plugin marketplace add harvard-huit/huit-plugin-marketplace
+/plugin marketplace add harvard-ea/huit-plugin-marketplace
 /plugin install solar-system-api-server@huit-plugin-marketplace
 ```
 
 **Codex**
 ```
-codex plugin marketplace add harvard-huit/huit-plugin-marketplace
+codex plugin marketplace add harvard-ea/huit-plugin-marketplace
 ```
 
 ## Server

@@ -5,6 +5,7 @@
   "author": {
     "name": "Harvard University Information Technology (HUIT)"
   },
+  "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Solar System API Server"
   }
