@@ -28,18 +28,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-node@v4
         with:
-          python-version: "3.11"
+          node-version: "24"
 
       # Same pinned-generator install as validate.yml (see that file for the
-      # GEN_INSTALL_TOKEN / pinning notes); health additionally needs httpx.
+      # GEN_INSTALL_TOKEN / pinning notes).
       - name: Install generator
         env:
           GEN_TOKEN: ${{ secrets.GEN_INSTALL_TOKEN }}
         run: |
-          pip install --no-deps "plugin-marketplace-manager @ git+https://${GEN_TOKEN}@github.com/harvard-ea/plugin-marketplace-manager.git@427f78cb92752458570c60c40f07c594d6885608"
-          pip install "pyyaml>=6.0" "httpx>=0.27"
+          git clone --depth 1 --branch main \
+            "https://x-access-token:${GEN_TOKEN}@github.com/harvard-ea/plugin-marketplace-manager.git" \
+            "$RUNNER_TEMP/manager"
+          npm --prefix "$RUNNER_TEMP/manager/worker" install --omit=dev --ignore-scripts --no-audit --no-fund
 
       - name: Probe published endpoints
-        run: python -m submit.gen health .
+        run: node "$RUNNER_TEMP/manager/worker/src/gen/cli.ts" health .
