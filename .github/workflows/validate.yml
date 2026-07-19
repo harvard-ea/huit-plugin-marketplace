@@ -1,11 +1,16 @@
 # Data-repo CI gate. Drop this into the MARKETPLACE DATA REPO
 # (harvard-huit/huit-plugin-marketplace, or the harvard-ea POC copy) at
 #   .github/workflows/validate.yml
+# Generated/maintained in harvard-ea/plugin-marketplace-manager.
 #
 # It runs the generation library's `check` on every PR: validates each
 # server.yaml input, validates the generated Claude/Codex catalogs against their
 # plugin-entry schemas, and asserts the committed generated files are current.
 # This is the gate that would have caught the `url`-in-catalog bug before merge.
+#
+# The generator is the TypeScript library in the manager repo's worker/ package
+# (the same code the Cloudflare Worker runs when it opens submission PRs), run
+# directly under Node's native type stripping — no build step.
 #
 # Pair with branch protection on `main` (see data-repo-ci/README.md) so this
 # check is required before a (bot or human) PR can merge.
@@ -22,32 +27,30 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-node@v4
         with:
-          python-version: "3.11"
+          node-version: "24"
 
-      # Install the generation library straight from the submission-server repo.
-      # `--no-deps` skips the FastMCP/Okta/Modal server stack — the gen library
-      # only needs pyyaml (the `gen` extra in that repo's pyproject documents
-      # this), keeping the marketplace gate fast and immune to server-dep churn.
+      # Clone the generator straight from the manager repo.
       #
-      # The submission repo is PRIVATE and in a different org, so the default
-      # Actions token can't read it. Supply a read-only token as the
-      # GEN_INSTALL_TOKEN repo secret (fine-grained PAT with Contents:read on
-      # harvard-huit/huit-plugin-marketplace-submit, or a deploy token). Passed
-      # via env so it's masked and never written into the workflow file.
+      # The manager repo is PRIVATE, so the default Actions token can't read
+      # it. Supply a read-only token as the GEN_INSTALL_TOKEN repo secret
+      # (fine-grained PAT, resource owner harvard-ea, with Contents:read on
+      # harvard-ea/plugin-marketplace-manager). Passed via env so it's masked.
       #
-      # Pin @<SHA> to a commit of the submission repo so catalog generation can't
-      # drift under CI; bump it deliberately when the generator changes.
+      # Pin the checkout to a manager-repo SHA (replace `main`) so catalog
+      # generation can't drift under CI; bump deliberately on generator changes.
       - name: Install generator
         env:
           GEN_TOKEN: ${{ secrets.GEN_INSTALL_TOKEN }}
         run: |
-          pip install --no-deps "plugin-marketplace-manager @ git+https://${GEN_TOKEN}@github.com/harvard-ea/plugin-marketplace-manager.git@427f78cb92752458570c60c40f07c594d6885608"
-          pip install "pyyaml>=6.0"
+          git clone --depth 1 --branch main \
+            "https://x-access-token:${GEN_TOKEN}@github.com/harvard-ea/plugin-marketplace-manager.git" \
+            "$RUNNER_TEMP/manager"
+          npm --prefix "$RUNNER_TEMP/manager/worker" install --omit=dev --ignore-scripts --no-audit --no-fund
 
       # $GITHUB_REPOSITORY (= owner/repo) makes the freshness check use this
       # repo's own identity for the Pages install command — matching what the
       # submission server generated when it opened the PR.
       - name: Validate inputs, catalogs, and generated-file freshness
-        run: python -m submit.gen check . --marketplace-repo "$GITHUB_REPOSITORY"
+        run: node "$RUNNER_TEMP/manager/worker/src/gen/cli.ts" check . --marketplace-repo "$GITHUB_REPOSITORY"
