@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "pivot-smoke-test": {
+      "type": "http",
+      "url": "https://pivot-smoke.example.com/mcp"
+    }
+  }
+}

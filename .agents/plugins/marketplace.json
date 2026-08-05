@@ -12,6 +12,13 @@
       }
     },
     {
+      "name": "pivot-smoke-test",
+      "source": "./servers/pivot-smoke-test",
+      "policy": {
+        "installation": "AVAILABLE"
+      }
+    },
+    {
       "name": "selenography-lunar-features-server",
       "source": "./servers/selenography-lunar-features-server",
       "policy": {

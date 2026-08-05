@@ -103,25 +103,24 @@
    flow is verified end-to-end.</p>
 
 <h2 id="submit">Submit a server for review</h2>
-<p>Submissions are made through the submission MCP server, which validates your
-   server and opens a pull request to the marketplace for a maintainer to review.
-   The easiest path is the companion plugin:</p>
+<p>Submissions run through the <code>harvard-ea/plugin-marketplace-manager</code> harness, which validates
+   your server, generates the plugin bundle, and opens a pull request to the
+   marketplace for a maintainer to review. You never edit this repo directly.</p>
 <ol>
-  <li>Add the tools marketplace and install the submission plugin:
-    <pre><code>/plugin marketplace add harvard-ea/plugin-marketplace-manager
-/plugin install huit-marketplace-submit@huit-plugin-marketplace-tools
-/reload-plugins</code></pre></li>
-  <li>Authenticate the <code>huit-plugin-submission</code> MCP server (<code>/mcp</code>).</li>
-  <li>Ask Claude to “submit my MCP server to the marketplace.” The guided skill
-      collects the details (name, description, URL, tags, homepage), checks for
-      name collisions, dry-run validates, and opens the PR.</li>
+  <li>Clone the manager repo and set up (once):
+    <pre><code>git clone https://github.com/harvard-ea/plugin-marketplace-manager.git
+cd plugin-marketplace-manager
+uv sync --extra dev
+gh auth login   # an account with write access to the marketplace repo</code></pre></li>
+  <li>Open it in Claude Code and ask to “submit my MCP server to the
+      marketplace.” The <code>submit-plugin</code> skill collects the details
+      (name, description, URL, tags, homepage), checks for name collisions,
+      dry-run validates, and opens the PR.</li>
 </ol>
 <p>To change a server that's already published, update it (rather than
-   re-adding): the submission flow opens a PR that replaces the existing entry.</p>
-<p class="note">Prefer to drive it yourself? The server exposes
-   <code>list_servers</code>, <code>validate_server</code> (dry run),
-   <code>submit_server</code> (add), and <code>update_server</code> (modify an
-   existing entry) directly.</p>
+   re-adding): the update flow opens a PR that replaces the existing entry.</p>
+<p class="note">Prefer to drive it yourself? The CLI mirrors the skill:
+   <code>uv run python -m submit validate|submit|update|deprecate|retire|status|servers</code>.</p>
 
 <h2 id="teams">Team-specific marketplaces</h2>
 <p>Beyond the public marketplace, teams can have their own curated marketplace
@@ -129,8 +128,8 @@
 <ul>
   <li>Each team marketplace is its own data repository with its own catalog and
       access controls.</li>
-  <li>Submitters choose a destination tier when submitting; access is gated by
-      team membership (authorized via the submitter's identity).</li>
+  <li>Submitters choose a destination tier when submitting; who may submit to a
+      tier is whoever has write access to its repository.</li>
   <li>Setup and policy are coordinated with HUIT — this section will expand with
       concrete steps as team marketplaces roll out.</li>
 </ul>

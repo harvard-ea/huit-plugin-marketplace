@@ -1,0 +1,15 @@
+# Generated from an MCP submission via the submission server.
+# Edit by re-submitting or by opening a PR.
+name: Pivot Smoke Test
+slug: pivot-smoke-test
+description: Throwaway entry verifying the agentic-harness pivot end-to-end. Will
+  be closed unmerged.
+url: https://pivot-smoke.example.com/mcp
+transport: http
+auth:
+  type: none
+tags:
+- smoke-test
+homepage: https://example.com
+version: 0.1.0
+owner: jefferson@7robots.org

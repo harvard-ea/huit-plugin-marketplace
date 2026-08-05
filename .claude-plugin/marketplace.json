@@ -18,6 +18,16 @@
       "homepage": "https://docs.excalidraw.com/docs"
     },
     {
+      "name": "pivot-smoke-test",
+      "source": "./servers/pivot-smoke-test",
+      "description": "Throwaway entry verifying the agentic-harness pivot end-to-end. Will be closed unmerged.",
+      "version": "0.1.0",
+      "tags": [
+        "smoke-test"
+      ],
+      "homepage": "https://example.com"
+    },
+    {
       "name": "selenography-lunar-features-server",
       "source": "./servers/selenography-lunar-features-server",
       "description": "This server hosts a database of over 9000 geologic features of the moon",

@@ -16,6 +16,19 @@
     "version": "0.1.0"
   },
   {
+    "slug": "pivot-smoke-test",
+    "name": "Pivot Smoke Test",
+    "description": "Throwaway entry verifying the agentic-harness pivot end-to-end. Will be closed unmerged.",
+    "url": "https://pivot-smoke.example.com/mcp",
+    "transport": "http",
+    "auth": "none",
+    "tags": [
+      "smoke-test"
+    ],
+    "homepage": "https://example.com",
+    "version": "0.1.0"
+  },
+  {
     "slug": "selenography-lunar-features-server",
     "name": "Selenography Lunar Features Server",
     "description": "This server hosts a database of over 9000 geologic features of the moon",

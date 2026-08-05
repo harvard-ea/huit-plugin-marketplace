@@ -1,0 +1,12 @@
+{
+  "name": "pivot-smoke-test",
+  "version": "0.1.0",
+  "description": "Throwaway entry verifying the agentic-harness pivot end-to-end. Will be closed unmerged.",
+  "author": {
+    "name": "Harvard University Information Technology (HUIT)"
+  },
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Pivot Smoke Test"
+  }
+}
