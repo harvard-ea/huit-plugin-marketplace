@@ -1,14 +1,2 @@
-# Python / uv
-.venv/
-__pycache__/
-*.pyc
-.pytest_cache/
-*.egg-info/
-dist/
-build/
-
-# Health report (regenerated each run; not source)
-/health.json
-
-# OS
+# This repo holds only marketplace data — no build tooling, no runtime.
 .DS_Store
