@@ -1,69 +1,58 @@
-# CLAUDE.md — huit-plugin-marketplace (public data repo)
+# CLAUDE.md — huit-plugin-marketplace
 
-Guidance for Claude Code (and humans). Read this first when picking up development.
+A GitHub-native plugin marketplace **data repo** serving Claude Code and Codex.
 
 ## What this is
 
-A **GitHub-native plugin marketplace** for MCP servers, serving both **Claude
-Code** and **OpenAI Codex**. This repo is a **data store** — it holds the
-`server.yaml` source files and the generated plugin manifests, both marketplace
-catalogs, and a static listing. **There is no build tooling here.**
+Entries live in `servers/<name>/` (MCP servers) and `plugins/<name>/` (skills
+only). Each has a `server.yaml` source of truth plus manifests derived from it,
+and an entry in both root catalogs.
 
-Generation and PRs are produced by the **submission MCP server**:
-`harvard-huit/huit-plugin-marketplace-submit` (validate → generate → open a PR
-here). Design + rationale live there in `docs/design.md`, and in the
-`mcp-marketplace` repo under `docs/superpowers/specs/` +
-`docs/GitHub-Native-Marketplace-Spec.md`.
+There is **no build tooling and no generator here.** Changes are made with the
+`manage-marketplace` skill — which this repo also *publishes*, at
+`plugins/manage-marketplace/`. Its canonical home is
+`harvard-ea/plugin-marketplace-manager`; the copy here is what people install.
+**If you change the skill, change it there first and re-vendor**, or the two
+drift.
 
-## Structure
+Access control is **write permission on this repo**. Nothing else.
 
-```
-servers/<slug>/server.yaml          # SOURCE OF TRUTH (one per MCP server)
-servers/<slug>/.claude-plugin/…     # generated (Claude plugin manifest)
-servers/<slug>/.codex-plugin/…      # generated (Codex plugin manifest)
-servers/<slug>/.mcp.json            # generated (MCP declaration)
-.claude-plugin/marketplace.json     # generated catalog (Claude)
-.agents/plugins/marketplace.json    # generated catalog (Codex)
-docs/index.html                     # generated listing (served by Pages from main)
-```
-
-**Only `server.yaml` is hand-authored conceptually** — and even that normally
-comes from the submission server. Everything else is **generated**; do not
-hand-edit generated files. The submission server regenerates the whole set
-(plugin bundle + catalogs + listing) on each submission.
-
-## How content changes
-
-- **Primary path:** a developer uses the submission MCP server, which validates,
-  generates, and opens a PR here. A maintainer reviews and merges.
-- **Manual PRs** are possible but there is no generator in this repo — a
-  hand-authored `server.yaml` must be regenerated (by the submission server or a
-  maintainer) before merge. Do not commit a `server.yaml` without its generated
-  bundle + updated catalogs.
-
-## Pages
-
-GitHub Pages serves `docs/` from the `main` branch
-(Settings → Pages → *Deploy from a branch* → `main` / `docs`). No Actions
-workflow. (Enable this in the repo settings once; owner-driven.)
-
-## Install (for reference)
+## Layout
 
 ```
-/plugin marketplace add harvard-huit/huit-plugin-marketplace      # Claude Code
-codex plugin marketplace add harvard-huit/huit-plugin-marketplace # Codex
+.claude-plugin/marketplace.json      # Claude catalog
+.agents/plugins/marketplace.json     # Codex catalog
+servers/<name>/                      # MCP server entry
+plugins/<name>/                      # skills-only entry (kind: skill)
+schema/                              # JSON Schemas; CI validates against these
+.github/workflows/validate.yml       # required gate, NO secrets
+.github/workflows/health.yml         # opt-in endpoint probe, NO secrets
 ```
-Private repo: installers need GitHub access + an SSO-authorized token for
-`harvard-huit`.
 
-## Conventions
+## Invariants
 
-- Keep generated files consistent with their `server.yaml` sources — regenerate,
-  don't hand-edit. The generator is the `gen/` library in the submission server.
-- No secrets here. Auth-requiring servers ship a `<YOUR_API_KEY>` placeholder.
+- **Never put `url` on a catalog plugin entry** — Claude Code's loader rejects
+  unrecognized keys, and this broke installs once. Endpoint lives in
+  `server.yaml` + `.mcp.json`.
+- **Both catalogs change in the same commit.**
+- Entry names are lowercase alphanumeric + hyphens, and must not collide with
+  reserved names (see the skill's `SKILL.md`).
+- Endpoints and homepages are `https://` only.
+- Credentials are never committed — `<YOUR_API_KEY>` placeholders only.
+- `.mcp.json` (shared, has `type`) and `.codex-plugin/mcp.json` (Codex-only, has
+  `http_headers`, no `type`) are **different shapes**. Don't conflate them.
 
-## Status
+## No secrets
 
-Exploration. The historical scaffold once held the `hpm` CLI + reusable workflows
-+ a contribution skill; those were removed when the tooling moved to the
-submission server. This repo is now data-only.
+This repo deliberately holds **zero** Actions secrets. The pre-2026-08-18 CI
+installed a generator from a private repo through a `GEN_INSTALL_TOKEN` PAT;
+that is gone. If a secret ever reappears here, treat it as a regression.
+
+## History
+
+Until 2026-08-18 this repo was written to by a hosted submission MCP server
+(Okta-authenticated, Modal then Cloudflare Workers), and served a generated
+GitHub Pages listing. Both are retired: the server in favour of the local
+agentic skill, and Pages because it was most of the generated bytes and could
+not work for the private team repos that are now the default. See
+`harvard-ea/plugin-marketplace-manager` → `docs/plans/`.
