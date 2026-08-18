@@ -25,12 +25,16 @@ Browse what's here under `servers/` and `plugins/`, or read
 its GitHub org can run its own marketplace — there is no central marketplace
 team to go through, and no approval queue.
 
-Install the toolkit from this marketplace and it will walk you through it:
+Install the toolkit and it will walk you through it:
 
 ```
-/plugin marketplace add harvard-ea/huit-plugin-marketplace
-/plugin install manage-marketplace@huit-plugin-marketplace
+/plugin marketplace add harvard-ea/plugin-marketplace-manager
+/plugin install manage-marketplace@plugin-marketplace-manager
 ```
+
+That repo is **private to the org** — the toolkit is for people running a
+marketplace, not for general installation, so it is deliberately not listed in
+this public catalog.
 
 Then ask Claude to set up a marketplace for your team. It confirms your GitHub
 team (read-only — it never changes membership), creates a **private** repo by

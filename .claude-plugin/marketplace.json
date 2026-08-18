@@ -18,19 +18,6 @@
       "homepage": "https://docs.excalidraw.com/docs"
     },
     {
-      "name": "manage-marketplace",
-      "source": "./plugins/manage-marketplace",
-      "description": "Create and run your team's own Claude/Codex plugin marketplace on GitHub.",
-      "version": "1.0.2",
-      "category": "Developer Tools",
-      "tags": [
-        "marketplace",
-        "plugins",
-        "admin"
-      ],
-      "homepage": "https://github.com/harvard-ea/plugin-marketplace-manager"
-    },
-    {
       "name": "selenography-lunar-features-server",
       "source": "./servers/selenography-lunar-features-server",
       "description": "This server hosts a database of over 9000 geologic features of the moon",
