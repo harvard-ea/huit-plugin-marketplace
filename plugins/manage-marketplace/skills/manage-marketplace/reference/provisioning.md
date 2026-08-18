@@ -100,6 +100,12 @@ schema/*.json                        <- reference/schemas/*.json  (all of them)
 .github/workflows/validate.yml       <- reference/ci/validate.yml
 ```
 
+Optionally also `.github/workflows/health.yml` from `reference/ci/health.yml` —
+a weekly probe that reports when a published endpoint goes dead. It is also
+secretless, and deprecated entries never fail it. **Ask** rather than seeding it
+silently; a marketplace of skill-only plugins has no endpoints to probe and
+doesn't need it.
+
 Create the two empty catalogs. `<catalog-name>` must be a valid slug and
 `<Display Name>` is what users see:
 
@@ -112,8 +118,13 @@ Create the two empty catalogs. `<catalog-name>` must be a valid slug and
 { "name": "<catalog-name>", "interface": { "displayName": "<Display Name>" }, "plugins": [] }
 ```
 
-Plus `servers/.gitkeep` and a `README.md` saying what the marketplace is, how to
-install from it, and that entries are managed with this skill.
+Plus `servers/.gitkeep`, `plugins/.gitkeep`, and a `README.md` saying what the
+marketplace is, how to install from it, and that entries are managed with this
+skill.
+
+Both entry directories are seeded because a marketplace can hold either kind:
+`servers/<name>/` for an MCP server, `plugins/<name>/` for a skills-only plugin.
+Either may stay empty — the gate tolerates it.
 
 Commit and push:
 

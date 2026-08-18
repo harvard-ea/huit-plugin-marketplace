@@ -1,6 +1,6 @@
 {
   "name": "manage-marketplace",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Create and run your team's own Claude Code + Codex plugin marketplace on GitHub.",
   "author": {
     "name": "Harvard University Information Technology (HUIT)"
