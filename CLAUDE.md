@@ -9,11 +9,11 @@ only). Each has a `server.yaml` source of truth plus manifests derived from it,
 and an entry in both root catalogs.
 
 There is **no build tooling and no generator here.** Changes are made with the
-`manage-marketplace` skill — which this repo also *publishes*, at
-`plugins/manage-marketplace/`. Its canonical home is
-`harvard-ea/plugin-marketplace-manager`; the copy here is what people install.
-**If you change the skill, change it there first and re-vendor**, or the two
-drift.
+`manage-marketplace` skill, which lives in — and is installed from —
+`harvard-ea/plugin-marketplace-manager` (private to the org). It is deliberately
+**not** published in this public catalog: it is administration tooling, not
+something general users should install, and listing it here invited the
+reasonable question of why admin tooling was internet-visible.
 
 Access control is **write permission on this repo**. Nothing else.
 

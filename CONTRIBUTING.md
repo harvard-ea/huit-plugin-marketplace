@@ -2,14 +2,18 @@
 
 ## Use the skill
 
-Install `manage-marketplace` from this marketplace and ask Claude to add, update,
-deprecate, or remove an entry. It writes every file, validates against
-`schema/`, and pushes or opens a PR depending on this repo's branch protection.
+Install `manage-marketplace` and ask Claude to add, update, deprecate, or remove
+an entry. It writes every file, validates against `schema/`, and pushes or opens
+a PR depending on this repo's branch protection.
 
 ```
-/plugin marketplace add harvard-ea/huit-plugin-marketplace
-/plugin install manage-marketplace@huit-plugin-marketplace
+/plugin marketplace add harvard-ea/plugin-marketplace-manager
+/plugin install manage-marketplace@plugin-marketplace-manager
 ```
+
+That repo is **private to the org** — the toolkit is for people running a
+marketplace, not for general installation, so it is deliberately not listed in
+this public catalog.
 
 Publishing requires **write access to this repo** — that is the whole access
 control story. No Okta, no bot, no allowlist.
