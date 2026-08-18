@@ -5,5 +5,5 @@ description: Create and run your team's own Claude/Codex plugin marketplace on G
 tags: [marketplace, plugins, admin]
 category: Developer Tools
 homepage: https://github.com/harvard-ea/plugin-marketplace-manager
-version: 1.0.0
+version: 1.0.1
 owner: jefferson_burson@harvard.edu

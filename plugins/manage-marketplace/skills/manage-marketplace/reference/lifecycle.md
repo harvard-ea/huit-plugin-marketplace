@@ -18,8 +18,24 @@ git add -A && git commit -m "<message>"
 git push origin main
 ```
 
-**If the push is rejected by branch protection**, don't fight it — that repo
-wants review. Switch to a branch and open a PR:
+### Decide push-vs-PR BEFORE you push
+
+Check for branch protection first. Do **not** just push and wait to be
+rejected — `enforce_admins` is commonly false, so a repo admin's push silently
+bypasses a review requirement the team deliberately set up. Rejection is not a
+reliable signal.
+
+```bash
+gh api "repos/<owner>/<repo>/branches/main/protection" \
+  --jq '{pr_required:(.required_pull_request_reviews!=null), checks:.required_status_checks.contexts}' \
+  2>/dev/null || echo "unprotected"
+```
+
+- `unprotected` (404) → push straight to `main`.
+- `pr_required: true` → **open a PR**, even if you personally could bypass it.
+  Bypassing another team's review rule is not your call to make.
+
+If a push is rejected anyway, treat that the same way: branch and open a PR.
 
 ```bash
 git checkout -b <verb>/<slug>
