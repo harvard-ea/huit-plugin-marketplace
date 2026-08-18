@@ -21,7 +21,7 @@
       "name": "manage-marketplace",
       "source": "./plugins/manage-marketplace",
       "description": "Create and run your team's own Claude/Codex plugin marketplace on GitHub.",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "category": "Developer Tools",
       "tags": [
         "marketplace",
