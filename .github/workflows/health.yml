@@ -1,45 +1,75 @@
-# OPT-IN staleness check for a marketplace DATA REPO (ROADMAP 1.13). Drop this
-# into the data repo at .github/workflows/health.yml *only if* you want
-# scheduled dead-endpoint detection — it is deliberately not part of the
-# required validate.yml gate. Generated/maintained in
-# harvard-ea/plugin-marketplace-manager.
+# OPT-IN scheduled endpoint probe for a marketplace repo.
 #
-# It probes every published server's endpoint at the HTTP level (no MCP
-# handshake, no credentials): connection failures / timeouts / 5xx fail the
-# run. A failing scheduled run is the signal that an entry has gone stale —
-# deprecate or retire it via the submission server. Deprecated entries are
-# probed but never fail the run (their decay is expected).
+# Not installed by default and not part of the required validate gate. Add it at
+# .github/workflows/health.yml if you want to be told when a published endpoint
+# goes dead.
 #
-# This stays git-native on purpose: no stateful monitor, no database — just a
-# scheduled re-run of the reachability check (the design's stateless stance).
-name: marketplace-health
+# Needs NO secret and NO Python — it reads each entry's server.yaml directly and
+# probes at the HTTP level (no MCP handshake, no credentials). A deprecated entry
+# is probed but never fails the run: its decay is expected.
+#
+# Replaces the pre-2026-08-18 version, which installed the retired Python
+# generator through a GEN_INSTALL_TOKEN PAT.
+name: health
 
 on:
   schedule:
-    - cron: "0 11 * * 1" # Mondays 11:00 UTC — weekly is plenty for staleness
+    - cron: "17 8 * * 1"   # Mondays, 08:17 UTC
   workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  health:
+  probe:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-
-      # Same pinned-generator install as validate.yml (see that file for the
-      # GEN_INSTALL_TOKEN / pinning notes); health additionally needs httpx.
-      - name: Install generator
-        env:
-          GEN_TOKEN: ${{ secrets.GEN_INSTALL_TOKEN }}
+      - name: Probe every published endpoint
         run: |
-          pip install --no-deps "plugin-marketplace-manager @ git+https://${GEN_TOKEN}@github.com/harvard-ea/plugin-marketplace-manager.git@a591cc41923a9ebdf20081d1c61cecfa010fa865"
-          pip install "pyyaml>=6.0" "httpx>=0.27"
+          set -uo pipefail
+          shopt -s nullglob
+          fail=0; checked=0
 
-      - name: Probe published endpoints
-        run: python -m submit.gen health .
+          for f in servers/*/server.yaml plugins/*/server.yaml; do
+            slug=$(basename "$(dirname "$f")")
+
+            # kind: skill entries have no endpoint to probe.
+            grep -qE '^kind:[[:space:]]*skill' "$f" && continue
+
+            url=$(sed -n 's/^url:[[:space:]]*//p' "$f" | head -1 | tr -d '"'"'"' \r')
+            [ -n "$url" ] || { echo "??  $slug — no url in server.yaml"; continue; }
+
+            deprecated=no
+            grep -qE '^deprecated:[[:space:]]*true' "$f" && deprecated=yes
+
+            checked=$((checked+1))
+            code=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 20 \
+                     --retry 2 --retry-delay 3 "$url" 2>/dev/null); rc=$?
+            # With --retry, curl writes %{http_code} once PER ATTEMPT, so a dead
+            # host yields "000000", not "000". Keep only the final attempt's code
+            # — matching "000" exactly would let a dead endpoint read as healthy.
+            code=${code: -3}
+            [ -n "$code" ] || code=000
+            [ "$rc" -ne 0 ] && [ "$code" = "000" ] && code=000
+
+            # 2xx/3xx is healthy. 401/403/405/406/415 mean "reachable but this
+            # bare GET isn't the MCP handshake" — that is a live server, not a
+            # dead one, so it must not be reported as a failure.
+            case "$code" in
+              2*|3*|401|403|405|406|415) echo "ok  $slug ($code)" ;;
+              000)
+                if [ "$deprecated" = yes ]; then echo "--  $slug unreachable (deprecated, ignored)"
+                else echo "DEAD $slug — $url did not respond"; fail=1; fi ;;
+              5*)
+                if [ "$deprecated" = yes ]; then echo "--  $slug $code (deprecated, ignored)"
+                else echo "DEAD $slug — $url returned $code"; fail=1; fi ;;
+              *)  echo "??  $slug returned $code (not treated as failure)" ;;
+            esac
+          done
+
+          echo
+          echo "probed $checked endpoint(s)"
+          [ "$fail" -eq 0 ] && echo "all healthy" || echo "one or more endpoints are DEAD"
+          exit $fail

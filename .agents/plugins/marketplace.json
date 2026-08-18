@@ -12,6 +12,13 @@
       }
     },
     {
+      "name": "manage-marketplace",
+      "source": "./plugins/manage-marketplace",
+      "policy": {
+        "installation": "AVAILABLE"
+      }
+    },
+    {
       "name": "selenography-lunar-features-server",
       "source": "./servers/selenography-lunar-features-server",
       "policy": {
